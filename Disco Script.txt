@@ -1,0 +1,7 @@
+while true do
+ wait(0.5)
+ game.Lighting.Ambient = Color3.new(math.random(), math.random(), math.random())
+ game.Lighting.ColorShift_Top = Color3.new(math.random(), math.random(), math.random())
+ game.Lighting.ColorShift_Bottom = Color3.new(math.random(), math.random(), math.random())
+ game.Lighting.ShadowColor = Color3.new(math.random(), math.random(), math.random())
+end

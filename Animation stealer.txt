@@ -1,0 +1,8 @@
+-- 𝘚𝘤𝘳𝘪𝘱𝘵
+local user = "username of player here [NOT DISPLAY NAME] "
+local victim = game.Players[user]
+local plr = game.Players.LocalPlayer
+plr.Character.Animate:ClearAllChildren()
+for i,v in pairs(victim.Character.Animate:GetChildren()) do
+   v:Clone().Parent = plr.Character.Animate
+end

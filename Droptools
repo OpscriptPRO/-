@@ -1,1 +1,10 @@
-loadstring(game:HttpGet("https://pastebin.com/raw/k778UByk"))()
+local player = game.Players.LocalPlayer
+local toolInCharacter = player.Character:FindFirstChildOfClass("Tool")
+
+for i, v in pairs(player.Backpack:GetChildren()) do
+v.CanBeDropped = true
+end
+
+if toolInCharacter then
+toolInCharacter.CanBeDropped = true
+end

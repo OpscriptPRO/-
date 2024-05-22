@@ -1,0 +1,593 @@
+-- [[ Addict V2, by Melon and MyWorld ]] --
+--[[ Note, MyWorld did not work on this script,
+im just using some of his sines and raycasts.]]--
+-- [[ Hats ]] --
+
+--[[
+- Free
+https://www.roblox.com/catalog/4819740796/Robox
+https://www.roblox.com/catalog/9867487176/Le-Rouge-Cross-body-Bag-3-0
+https://www.roblox.com/catalog/9867481700/Le-Rouge-Cross-body-Bag-1-0
+https://www.roblox.com/catalog/8763318146/Warrior-Mat-Alo-Yoga-Strap-Jungle
+https://www.roblox.com/catalog/8763290412/Warrior-Mat-Alo-Yoga-Strap-Black
+
+- Paid
+https://www.roblox.com/catalog/14255528083/Torso-Extension
+https://www.roblox.com/catalog/14255556501/Extra-Right-White-Arm
+https://www.roblox.com/catalog/14255554762/Extra-Left-White-Arm
+https://www.roblox.com/catalog/12344591101/Extra-Right-hand-moving-Blocky-white
+https://www.roblox.com/catalog/12344545199/Extra-Left-hand-moving-Blocky-white
+]]--
+
+local SONG = Instance.new("Sound", Workspace)
+local SONGNAME = "Addict.mp3"
+  if not isfile(SONGNAME) then
+writefile(SONGNAME, game:HttpGet("https://download1531.mediafire.com/x8ct80413avgZoCctCvy1B_eYFLJxPmU6B3X1wx-jEr-nSIxjXUMCQQ6y-6z_i63IFI8axwjqCXOdKIPoSSr5ncHvhxs1_Vny66ge3WJcw3j3dN6lQvJjg9FDRAWT8m70iq6D8553qKIAHH5qWBN8aevmBEy5YwioHn4PjFO9g_n0Q/4cg27a4mclj56n2/Addict+%28320K%29.mp3"))
+end
+SONG.SoundId = getcustomasset(SONGNAME)
+SONG.Looped = true
+SONG.Pitch = 1.15
+SONG.Name = "Sound"
+SONG.Volume = 10
+SONG:Play()
+
+local dist = Instance.new("DistortionSoundEffect", SONG)
+dist.Level = 0.75
+dist.Enabled = true
+
+
+local plrs=game:FindFirstChildOfClass("Players")
+local rs=game:FindFirstChildOfClass("RunService")
+local ws=game:FindFirstChildOfClass("Workspace")
+local uis=game:FindFirstChildOfClass("UserInputService")
+local gs=game:FindFirstChildOfClass("GuiService")
+local cg=game:FindFirstChildOfClass("CoreGui")
+
+local lp=plrs.LocalPlayer
+local pg=lp:FindFirstChildOfClass("PlayerGui")
+local mouse=lp:GetMouse()
+local stepped=rs.Stepped
+local heartbeat=rs.Heartbeat
+local renderstepped=rs.RenderStepped
+
+local osclock=os.clock
+local tspawn=task.spawn
+local twait=task.wait
+local schar=string.char
+local sbyte=string.byte
+local ssub=string.sub
+local sfind=string.find
+local supper=string.upper
+local mrandom=math.random
+local clamp=math.clamp
+local sin=math.sin
+local cos=math.cos
+local abs=math.abs
+local rad=math.rad
+local tinsert=table.insert
+local tclear=table.clear
+local tfind=table.find
+local tunpack=table.unpack
+
+local i=Instance.new 
+local v2=Vector2.new 
+local v3=Vector3.new
+local c3=Color3.new 
+local cf=CFrame.new
+local angles=CFrame.Angles
+local u2=UDim2.new
+local e=Enum 
+local cs=ColorSequence.new 
+local csk=ColorSequenceKeypoint.new 
+
+local sine=osclock()
+local deltaTime=0
+local v3_0=v3(0,0,0)
+local v3_101=v3(1,0,1)
+local v3_010=v3(0,1,0)
+local v3_001=v3(0,0,1)
+local cf_0=cf(0,0,0)
+local v3_xz=v3_101*10
+local v3_net=v3_010*25.01
+
+local function makepcall(f)
+	if type(f)=="function" then
+		return function(...)
+			local a={...}
+			local r=nil
+			pcall(function()
+				r={f(tunpack(a))}
+			end)
+			return tunpack(r or {})
+		end
+	end
+	return function() end
+end
+local function rs(l) 
+	l=l or mrandom(8,15) 
+	local s="" 
+	for i=1,l do 
+		if mrandom(1,2)==1 then 
+			s=s..schar(mrandom(65,90)) 
+		else 
+			s=s..schar(mrandom(97,122)) 
+		end 
+	end 
+	return s 
+end 
+local function gp(p,n,cl)
+	if typeof(p)=="Instance" then
+		local c=p:GetChildren()
+		for i=1,#c do
+			local v=c[i]
+			if (v.Name==n) and v:IsA(cl) then
+				return v
+			end
+		end
+	end
+	return nil
+end
+local function loopgp(...)
+	while true do
+		local r=gp(...)
+		if r then
+			return r
+		end
+		twait()
+	end
+end
+local function timegp(p,n,c,t)
+	t=osclock()+t
+	while t>osclock() do
+		local r=gp(p,n,c)
+		if r then
+			return r
+		end
+		twait()
+	end
+	return nil
+end
+local function getNetlessVelocity(realVel)
+	--if true then return v3_0 end
+	--if true then return realPartVelocity end
+	--if true then return v3_net end
+	if realVel.Magnitude>25.01 then
+		realVel=realVel.Unit*25.01
+	end
+	return realVel*v3_xz+v3_net
+end
+local isClientInstance=makepcall(function(i)
+	return ssub(i:GetDebugId(),1,1)=="0"
+end)
+local isServerInstance=function(i)
+	return not isClientInstance(i)
+end
+local shp=(((type(getfenv)=="function") and getfenv()) or {}).sethiddenproperty
+
+local allowshiftlock=nil
+local ctrltp=nil
+local simrad=nil
+local placeholders=nil
+local clickfling=nil
+
+local stopreanimate=function() return nil end
+local function reanimate()
+	--[[
+	    FDless reanimate by MyWorld
+	    aka no client sided instances
+	    "what else do i optimize here"
+	]]
+
+	local novoid = true --prevents parts from going under workspace.FallenPartsDestroyHeight if you control them
+	local placeholders = true --makes client sided accessories replacing the real ones when unavailable
+	local speedlimit = 3000 --makes your parts move slower if the magnitude of their velocity is higher than this
+	local antiragdoll = true --removes instances that are usually used for ragdolling form your character
+	local addPartsOnRun = false --allows u to add more parts and joints to the simulation after it started
+	local R15toR6 = true --adds fake r6 parts and joints for animations if your character is r15
+	local walkSpeed = 16 --your walkspeed (can be changed at runtime)
+	local jumpPower = 50 --your jump power (can be changed at runtime)
+	local allowshiftlock = true --allows the user to use shiftlock (can be changed at runtime)
+	local gravity = 196.2 --how fast the characters velocity increases while falling (can be changed at runtime)
+	local simrad = "shp" --sets simulation radius to this with sethiddenproperty if its set to a number
+	local ctrlclicktp = false --makes you teleport where u point ur mouse cursor at when click and hold ctrl down
+	local clickfling = true --makes you fling the person you clicked when its available to do so
+	local flingvel = v3(16000,16000,16000) --the rotation velocity that ur character will have while flinging
+
+	local c=lp.Character
+	if stopreanimate() or not (c and c:IsDescendantOf(ws)) then return end
+	
+	local hum=c:FindFirstChildOfClass("Humanoid")
+	local rootpart=gp(c,"HumanoidRootPart","BasePart") or gp(c,"Torso","BasePart") or gp(c,"UpperTorso","BasePart") or (hum and hum.RootPart) or timegp(c,"HumanoidRootPart","BasePart",0.5) or c:FindFirstChildWhichIsA("BasePart")
+	if not rootpart then return end
+
+	R15toR6=R15toR6 and hum and (hum.RigType==e.HumanoidRigType.R15)
+	simrad = (type(simrad)=="number") and (type(shp)=="function") and simrad
+
+	local flingparts={}
+	local cam=nil
+	--theres a way to have ws.currentcamera nil on heartbeat and still have the game run normally
+	local function refcam()
+		cam=ws.CurrentCamera
+		while not cam do
+			ws:GetPropertyChangedSignal("CurrentCamera"):Wait()
+			cam=ws.CurrentCamera
+		end
+	end
+	refcam()
+	local camcf=cam.CFrame
+	local enumCamS=e.CameraType.Scriptable
+	local camt=cam.CameraType
+	local camcon0=nil
+	local camcon1=nil
+	local function onnewcamera()
+		refcam()
+		if camcon0 then 
+			camcon0:Disconnect()
+			camcon0=nil
+		end
+		if not c then 
+			if cam.CameraType==enumCamS then
+				cam.CameraType=camt
+			end
+			return camcon1:Disconnect() 
+		end
+		camcon0=cam.Changed:Connect(function(p)
+			if not c then
+				camcon0:Disconnect()
+				return camcon1:Disconnect()
+			end
+			if (p=="CFrame") and (cam.CFrame~=camcf) then
+				cam.CFrame=camcf
+			elseif (p=="CameraSubject") or (p=="CameraType") then
+				local subj=cam.CameraSubject
+				if subj and subj:IsA("Humanoid") and (subj.Parent==c) and (cam.CameraType~=enumCamS) then
+					cam.CameraType = enumCamS
+				end
+			end
+		end)
+		local subj=cam.CameraSubject
+		if subj and subj:IsA("Humanoid") and (subj.Parent==c) and (cam.CameraType~=enumCamS) then
+			cam.CameraType=enumCamS
+		end
+		cam.CFrame=camcf
+	end
+	camcon1=ws:GetPropertyChangedSignal("CurrentCamera"):Connect(onnewcamera)
+	onnewcamera()
+
+	local fpdh=ws.FallenPartsDestroyHeight
+	novoid=novoid and (fpdh+1)
+	
+	local function getMeshOfPart(v)
+		if typeof(v)=="Instance" then
+			if v:IsA("MeshPart") then
+				return v.MeshId, v.TextureID
+			else
+				v=v:FindFirstChildOfClass("SpecialMesh")
+				if v then
+					return v.MeshId, v.TextureId
+				end
+			end
+		end
+		return nil, nil
+	end
+	
+	local joints={}
+	local cframes={}
+	local des=c:GetDescendants()
+	for i=1,#des do
+		local v=des[i]
+		if v:IsA("JointInstance") then
+			tinsert(joints,{
+				Name=v.Name,
+				C0=v.C0,
+				C1=v.C1,
+				Part0=v.Part0,
+				Part1=v.Part1
+			})
+		elseif v:IsA("BasePart") then
+			cframes[v]=v.CFrame
+		end
+	end
+	
+	local function makeplaceholder(v)
+		if typeof(v)~="Instance" then
+			return nil
+		end
+		if not v.Archivable then
+			v.Archivable=true
+		end
+		v=v:Clone()
+		local c=v:GetChildren()
+		for i=1,#c do
+			local v=c[i]
+			if v:IsA("SpecialMesh") then
+				v.Name=rs()
+				v:ClearAllChildren()
+			else
+				v:Destroy()
+			end
+		end
+		v.Name=rs()
+		v.Anchored=true
+		v.CanCollide=false
+		v.Transparency=0.25
+		v.Parent=ws
+		return v
+	end
+	
+	local function filterInstance(v)
+		local ins=v
+		if isClientInstance(v) then
+			v={CFrame=v.CFrame,Name=v.Name,Anchored=true}
+		else
+			local meshid,textureid=getMeshOfPart(v)
+			if meshid and (meshid~="") and textureid and (textureid~="") then
+				if placeholders then
+					v={CFrame=v.CFrame,Name=v.Name,Anchored=true,meshid=meshid,textureid=textureid,placeholder=makeplaceholder(v)}
+				else
+					v={CFrame=v.CFrame,Name=v.Name,Anchored=true,meshid=meshid,textureid=textureid}
+				end
+			else
+				v={CFrame=v.CFrame,Name=v.Name,Anchored=true}
+			end
+		end
+		local check=ins~=v
+		while check do
+			check=false
+			for i,v1 in pairs(cframes) do
+				if i==ins then
+					cframes[ins]=nil
+					cframes[v]=v1
+					check=true
+					break
+				end
+			end
+		end
+		for i,v1 in pairs(joints) do
+			if v1.Part0==ins then
+				v1.Part0=v
+			elseif v1.Part1==ins then
+				v1.Part1=v
+			end
+		end
+		if rootpart==ins then
+			rootpart=v
+		end
+		return v
+	end
+	for i,v in pairs(joints) do
+		v.Part0=filterInstance(v.Part0)
+		v.Part1=filterInstance(v.Part1)
+	end
+	
+	local Yvel=0
+	local cfr=rootpart.CFrame
+	local pos=cfr.Position
+	local shiftlock=false
+	local firstperson=false
+	local xzvel=v3_0
+	local v3_0150=v3_010*1.5
+	local camoff=cf(v3_0,camcf.LookVector)
+	camoff=camoff-v3_001*(camcf.Position-(pos+v3_0150)).Magnitude
+
+	local refreshjointsinternal=nil
+	refreshjointsinternal=function(part,refreshed)
+		if not part then return end
+		tinsert(refreshed,part)
+		for i,v in pairs(joints) do
+			local part0=v.Part0
+			local part1=v.Part1
+			if part1 and (part0==part) then
+				cframes[part1]=cframes[part]*v.C0*v.C1:Inverse()
+				if not tfind(refreshed,part1) then
+					refreshjointsinternal(part1,refreshed)
+				end
+			elseif part0 and (part1==part) then
+				cframes[part0]=cframes[part]*v.C1*v.C0:Inverse()
+				if not tfind(refreshed,part0) then
+					refreshjointsinternal(part0,refreshed)
+				end
+			end
+		end
+	end
+	local function refreshjoints(v)
+		refreshjointsinternal(v,{})
+	end
+
+	if R15toR6 then
+		local R6parts={ 
+			head={Name="Head",Anchored=true},
+			torso={Name="Torso",Anchored=true},
+			root={Name="HumanoidRootPart",Anchored=true},
+			leftArm={Name="Left Arm",Anchored=true},
+			rightArm={Name="Right Arm",Anchored=true},
+			leftLeg={Name="Left Leg",Anchored=true},
+			rightLeg={Name="Right Leg",Anchored=true}
+		}
+		for i,v in pairs(R6parts) do
+			cframes[v]=cfr
+		end
+		tinsert(joints,{
+			Name="Neck",
+			Part0=R6parts.torso,Part1=R6parts.head,
+			C0=cf(0,1,0,-1,0,0,0,0,1,0,1,-0),
+			C1=cf(0,-0.5,0,-1,0,0,0,0,1,0,1,-0)
+		})
+		tinsert(joints,{
+			Name="RootJoint",
+			Part0=R6parts.root,Part1=R6parts.torso,
+			C0=cf(0,0,0,-1,0,0,0,0,1,0,1,-0),
+			C1=cf(0,0,0,-1,0,0,0,0,1,0,1,-0)
+		})
+		tinsert(joints,{
+			Name="Right Shoulder",
+			Part0=R6parts.torso,Part1=R6parts.rightArm,
+			C0=cf(1,0.5,0,0,0,1,0,1,-0,-1,0,0),
+			C1=cf(-0.5,0.5,0,0,0,1,0,1,-0,-1,0,0)
+		})
+		tinsert(joints,{
+			Name="Left Shoulder",
+			Part0=R6parts.torso,Part1=R6parts.leftArm,
+			C0=cf(-1,0.5,0,0,0,-1,0,1,0,1,0,0),
+			C1=cf(0.5,0.5,0,0,0,-1,0,1,0,1,0,0)
+		})
+		tinsert(joints,{
+			Name="Right Hip",
+			Part0=R6parts.torso,Part1=R6parts.rightLeg,
+			C0=cf(1,-1,0,0,0,1,0,1,-0,-1,0,0),
+			C1=cf(0.5,1,0,0,0,1,0,1,-0,-1,0,0)
+		})
+		tinsert(joints,{
+			Name="Left Hip" ,
+			Part0=R6parts.torso,Part1=R6parts.leftLeg,
+			C0=cf(-1,-1,0,0,0,-1,0,1,0,1,0,0),
+			C1=cf(-0.5,1,0,0,0,-1,0,1,0,1,0,0)
+		})
+		tinsert(joints,{
+			Part0=R6parts.root,Part1=rootpart,
+			C0=cf_0,C1=cf_0
+		})
+		refreshjoints(rootpart)
+		local function getpart(n)
+			for i,_ in pairs(cframes) do
+				if (i.Name==n) and (type(i)~="table") then
+					return i
+				end
+			end
+			return nil
+		end
+		local function makejoint(p0, p1, p2)
+			p1=getpart(p1)
+			p2=getpart(p2)
+			if not (p1 and p2) then return end
+			for i,v in pairs(joints) do
+				if (v.Part0==p1) and (v.Part1==p2) then
+					joints[i]=nil
+				elseif (v.Part0==p2) and (v.Part1==p1) then
+					joints[i]=nil
+				end
+			end
+			tinsert(joints,{
+				Part0=p0,Part1=p1,
+				C0=cf_0,
+				C1=cframes[p1]:Inverse()*cframes[p0]
+			})
+		end
+		makejoint(R6parts.head,"Head","UpperTorso")
+		makejoint(R6parts.leftArm,"LeftUpperArm","UpperTorso")
+		makejoint(R6parts.rightArm,"RightUpperArm","UpperTorso")
+		makejoint(R6parts.leftLeg,"LeftUpperLeg","LowerTorso")
+		makejoint(R6parts.rightLeg,"RightUpperLeg","LowerTorso")
+		makejoint(R6parts.torso,"LowerTorso","HumanoidRootPart")
+	end
+		
+	local function getPart(name,blacklist)
+		for i,v in pairs(cframes) do
+			if (i.Name==name) and not (blacklist and tfind(blacklist,i)) then
+				return i
+			end
+		end
+		return nil
+	end
+
+	local function getPartFromMesh(meshid,textureid,blacklist)
+		for v,_ in pairs(cframes) do
+			if (type(v)=="table") and not (blacklist and tfind(blacklist,v)) then
+				if v.meshid and sfind(v.meshid,meshid) and sfind(v.textureid,textureid) then
+					return v
+				end
+			end
+		end
+		return nil
+	end
+
+	local function getJoint(name)
+		for i,v in pairs(joints) do
+			if v.Name==name then
+				return v
+			end
+		end
+		return {C0=cf_0,C1=cf_0}
+	end
+
+	local function getPartJoint(handle)
+		for i,v in pairs(joints) do
+			if v.Part0==handle then
+				return v
+			end
+		end
+		for i,v in pairs(joints) do
+			if v.Part1==handle then
+				return v
+			end
+		end
+		return nil
+	end
+
+	local accessorylimbs={
+        -- paid aligning --
+		{meshid="12344207333",textureid="12344207341",C0=angles(115,0,0),Name="Left Arm"},
+		{meshid="12344206657",textureid="12344206675",C0=angles(115,0,0),Name="Right Arm"},
+		{meshid="14255522247",textureid="14255543546",C0=angles(0,0,1.5707963267948966),Name="Left Leg"},
+		{meshid="14255522247",textureid="14255543546",C0=angles(0,0,1.5707963267948966),Name="Right Leg"},
+		{meshid="14241018198",textureid="14251599953",C0=cf_0,Name="Torso"},
+		
+		-- free aligning --
+	    {meshid="8761442057",textureid="8761547598",C0=angles(115,0,0),Name="Left Arm"},
+		{meshid="8761442057",textureid="8761421987",C0=angles(115,0,0),Name="Right Arm"},
+		{meshid="9867442567",textureid="9867451480",C0=angles(0,0,-15),Name="Left Leg"},
+		{meshid="9867442661",textureid="9867451480",C0=angles(0,0,-15),Name="Right Leg"},
+		{meshid="4819720316",textureid="4819722776",C0=angles(0,0,-105),Name="Torso"}
+			
+		--[[
+		backups incase the white limbs go down aswell
+		{meshid="11263221350",textureid="11263219250",C0=angles(0,0,1.5707963267948966),Name="Left Leg"},
+		{meshid="11159370334",textureid="11159284657",C0=angles(0,0,1.5707963267948966),Name="Right Leg"},
+		]]--
+	}
+
+	local alignblacklist={}
+	for i=1,#accessorylimbs do
+		local v=accessorylimbs[i]
+		local p=getPart(v.Name)
+		local h=getPartFromMesh(v.meshid,v.textureid,alignblacklist)
+		local w=getPartJoint(h)
+		if p and w then
+			w.C0=v.C0
+			w.Part0=h
+			w.C1=cf_0
+			w.Part1=p
+			tinsert(alignblacklist,h)
+		end
+	end
+		
+	local raycastparams=RaycastParams.new()
+	raycastparams.FilterType=e.RaycastFilterType.Blacklist
+	raycastparams.RespectCanCollide=true
+	local rayfilter={}
+	local characters={}
+	local function refreshrayfilter()
+		tclear(rayfilter)
+		for i,v in pairs(characters) do
+			tinsert(rayfilter,v)
+		end
+		raycastparams.FilterDescendantsInstances=rayfilter
+	end
+	local flingtarget=nil
+	local cframes1={}
+	local lastpositions={}
+	local rootparts={}
+	local function onplayer(v)
+		local lastc=nil
+		local function oncharacter()
+			local newc=v.Character
+			if newc and (newc ~= lastc) then
+				lastc=newc
+				characters[v]=newc
+				refreshrayfilter()
+				local hrp=loopgp(newc,"HumanoidRootPart","BasePart")
+				if v~=lp then
+					rootparts[v]=hrp
+				end
+				twait()
+				if c and (v==lp) and h
