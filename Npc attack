@@ -1,0 +1,1 @@
+local db = false script.Parent.Touched:Connect(function(obj) 	if obj.Parent:FindFirstChild("Humanoid") then 		local humanoid = obj.Parent.Humanoid 		if humanoid.Health > 0 then 			if db == false then 				db = true 				humanoid:TakeDamage(10) 				wait(.5) 				db = false 			end 		end 	end end)

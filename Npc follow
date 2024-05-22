@@ -1,0 +1,34 @@
+local Point = script.Parent.Parent.SpawnPoint
+
+local humanoid = script.Parent.Humanoid
+
+local limitPoint = 50
+
+
+function findTarget(EnemyHRP)
+	local target = nil
+	for i,child in pairs(game.Workspace:GetChildren()) do
+		if child:FindFirstChild("Humanoid") then
+			if child.Humanoid.Health > 0 then
+				local TargetHRP = child.HumanoidRootPart
+				local tartMag = (TargetHRP.Position - EnemyHRP.Position).magnitude
+				local pointMag = (TargetHRP.Position - Point.Position).magnitude
+				if pointMag < limitPoint then
+					if tartMag < limitPoint then
+						target = TargetHRP
+					end
+				else
+					humanoid:MoveTo(Point.Position)
+				end
+			end
+		end
+	end
+	return target
+end
+
+while wait() do
+	local getTarget = findTarget(script.Parent.HumanoidRootPart)
+	if getTarget ~= nil then
+		humanoid:MoveTo(getTarget.Position)
+	end
+end

@@ -1,0 +1,27 @@
+-- Create a new tool
+local tool = Instance.new("Tool")
+tool.Name = "TeleportTool"
+tool.RequiresHandle = false
+tool.Parent = game.Players.LocalPlayer.Backpack
+
+-- Create a function to handle equipped tool
+local function onEquipped()
+    -- Create a function to handle mouse click
+    local function onMouseClick()
+        -- Get the player's mouse
+        local mouse = game.Players.LocalPlayer:GetMouse()
+
+        -- Check if the mouse is pointing at a valid part
+        local target = mouse.Target
+        if target and target:IsA("BasePart") then
+            -- Teleport the player to the target part's position
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = target.CFrame
+        end
+    end
+
+    -- Connect the function to the mouse button click event
+    tool.Activated:Connect(onMouseClick)
+end
+
+-- Connect the onEquipped function to the equipped event of the tool
+tool.Equipped:Connect(onEquipped)

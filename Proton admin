@@ -1,0 +1,2 @@
+_G.UI_Id = "default" --set this to "default" for the default ui
+loadstring(game:HttpGet('https://raw.githubusercontent.com/DigitalityScripts/roblox-scripts/main/Proton%20Free'))()

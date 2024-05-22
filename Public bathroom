@@ -1,0 +1,1 @@
+loadstring(game:HttpGet("https://scriptblox.com/raw/Public-Bathroom-Simulator-Budgie-Hub-10621"))()
