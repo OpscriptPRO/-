@@ -1,0 +1,7 @@
+getgenv().dmsgs = {
+  deathmessages = {"i was lagging", "that wasnt fair", "You will pay for this", "What a noob", "I will not let you get away with that", "Are you serious dude", "You will regret this", "That is a grave mistake", "I will make you suffer you little ****", "You son of a ****", "Are you out of your mind", "What the hell is wrong with you","I will find you","That isn't nice dude","Karma will hit you back"}
+}
+--[[
+Auto-Excuse by flamespill#7488
+]]--
+loadstring(game:HttpGet("https://raw.githubusercontent.com/goldmoments/auto-excuse/main/Script"))("Auto-Excuse Script | flamespill#7488") 

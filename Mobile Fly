@@ -1,0 +1,14 @@
+--[[
+FE Mobile Fly V2.2 By Fedoratum#6195
+
+Type in the box (stop), to stop the script
+
+Update Log V2
+Added many more checkups (V2)
+Fixed script breaking when respawn (V2)
+Changed new way to stop script (because new chat) (V2)
+Update Log V2.2
+Fixed mobile detection problem by using getplatform (V2.2)
+Fixed some bugs when running script (V2.2)
+]]--
+loadstring(game:HttpGet("https://pastebin.com/raw/eiPema99"))()

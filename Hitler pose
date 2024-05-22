@@ -1,0 +1,13 @@
+local Player = game.Players.LocalPlayer
+
+local AnimationId = "74863286"
+local Anim = Instance.new("Animation")
+Anim.AnimationId = "rbxassetid://"..AnimationId
+local hitler = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+
+Player.Chatted:Connect(function(cht)
+    if cht:match("GG") then
+        hitler:Play()
+        hitler:AdjustSpeed(1)
+    end
+end)

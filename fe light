@@ -1,0 +1,46 @@
+-- Create a Sound object for the saxophone sound
+local saxophoneSound = Instance.new("Sound")
+saxophoneSound.SoundId = "rbxassetid://123456789" -- Replace with your own saxophone sound ID
+saxophoneSound.Parent = game.Workspace
+
+-- Function to play the saxophone sound
+local function playSaxophoneSound()
+    saxophoneSound:Play()
+end
+
+-- Create a Part to serve as the sky
+local skyPart = Instance.new("Part")
+skyPart.Name = "UniversalSky"
+skyPart.Anchored = true
+skyPart.CanCollide = false
+skyPart.Transparency = 1
+skyPart.Size = Vector3.new(100, 100, 100)
+skyPart.Position = Vector3.new(0, 100, 0) -- Adjust the position as needed
+skyPart.Parent = game.Workspace
+
+-- Function to create white lights surrounding the player
+local function createWhiteLights(player)
+    local character = player.Character
+    if character then
+        local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+        if humanoidRootPart then
+            for i = 1, 5 do
+                local light = Instance.new("PointLight")
+                light.Color = Color3.new(1, 1, 1)
+                light.Range = 50
+                light.Parent = humanoidRootPart
+            end
+        end
+    end
+end
+
+-- Event handler for when a player joins the game
+game.Players.PlayerAdded:Connect(function(player)
+    player.CharacterAdded:Connect(function(character)
+        createWhiteLights(player)
+    end)
+end)
+
+-- Event handler for when the script is executed
+createWhiteLights(game.Players.LocalPlayer)
+playSaxophoneSound()

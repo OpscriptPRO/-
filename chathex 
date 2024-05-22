@@ -1,0 +1,362 @@
+local chat = game.Players.LocalPlayer.PlayerGui.Chat 
+
+local rounder = Instance.new("UICorner") 
+
+chat.Frame.BackgroundTransparency = 0.5 
+
+chat.Frame.BackgroundColor3 = Color3.new(0, 0, 0) 
+
+rounder.Parent = chat.Frame 
+
+ 
+
+local messageLogDisplay = chat.Frame.ChatChannelParentFrame.Frame_MessageLogDisplay 
+
+local originalTextLabel = messageLogDisplay.Scroller.Frame.TextLabel 
+
+originalTextLabel.TextScaled = true 
+
+originalTextLabel.Font = Enum.Font.Highway 
+
+originalTextLabel.TextColor3 = Color3.new(255/255, 215/255, 0) 
+
+originalTextLabel.Text = "Type /help in Chat for Roblox-based commands. Otherwise, type /cmds for additional commands. (Scroll to Top)" 
+
+ 
+
+local scrollingFrame = messageLogDisplay.Scroller 
+
+ 
+
+local newFrame = Instance.new("Frame") 
+
+newFrame.Name = "Frame2" 
+
+newFrame.Size = UDim2.new(1, 0, 0, 20) 
+
+newFrame.BackgroundTransparency = 1 
+
+ 
+
+local newTextLabel = Instance.new("TextLabel") 
+
+newTextLabel.Name = "TextLabel2" 
+
+newTextLabel.Size = UDim2.new(1, 0, 1, 0) 
+
+newTextLabel.Text = "" 
+
+newTextLabel.TextScaled = true 
+
+newTextLabel.Font = Enum.Font.Highway 
+
+newTextLabel.TextColor3 = Color3.new(1, 1, 1) 
+
+newTextLabel.Parent = newFrame 
+
+ 
+
+local rounder2 = Instance.new("UICorner") 
+
+rounder2.CornerRadius = UDim.new(0, 6) 
+
+rounder2.Parent = newFrame 
+
+ 
+
+newFrame.Parent = scrollingFrame 
+
+ 
+
+-- Adjusting the grey bar's visibility 
+
+newTextLabel.BackgroundTransparency = 1 
+
+newTextLabel.Parent.BackgroundTransparency = 1 
+
+ 
+
+local chattext = chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.TextLabel 
+
+local chatbar = chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar 
+
+ 
+
+chattext.Text = "Type your message here..." 
+
+chattext.Font = Enum.Font.Highway 
+
+ 
+
+local TweenService = game:GetService("TweenService") 
+
+local rainbowColors = { 
+
+Color3.fromRGB(255, 0, 0), 
+
+Color3.fromRGB(0, 0, 255), 
+
+Color3.fromRGB(0, 255, 0), 
+
+Color3.fromRGB(128, 0, 128), 
+
+Color3.fromRGB(255, 255, 0), 
+
+Color3.fromRGB(255, 165, 0), 
+
+Color3.fromRGB(255, 192, 203), 
+
+Color3.fromRGB(0, 128, 128), 
+
+} 
+
+ 
+
+local isRainbowChatEnabled = false 
+
+ 
+
+local function startRainbowChat() 
+
+isRainbowChatEnabled = true 
+
+while isRainbowChatEnabled do 
+
+for i = 1, #rainbowColors do 
+
+local tweenInfo = TweenInfo.new(2, Enum.EasingStyle.Linear) 
+
+local tween = TweenService:Create(chat.Frame, tweenInfo, {BackgroundColor3 = rainbowColors[i]}) 
+
+tween:Play() 
+
+tween.Completed:Wait() 
+
+if not isRainbowChatEnabled then 
+
+break 
+
+end 
+
+end 
+
+end 
+
+end 
+
+ 
+
+local function stopRainbowChat() 
+
+isRainbowChatEnabled = false 
+
+local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Linear) 
+
+local tween = TweenService:Create(chat.Frame, tweenInfo, {BackgroundColor3 = Color3.new(0, 0, 0)}) 
+
+tween:Play() 
+
+end 
+
+ 
+
+local Player = game.Players.LocalPlayer 
+
+ 
+
+local function createTool(name, animationId) 
+
+local tool = Instance.new("Tool") 
+
+tool.Name = name 
+
+tool.Parent = Player.Backpack 
+
+tool.RequiresHandle = false 
+
+local humanoid = Player.Character:FindFirstChild("Humanoid") 
+
+local Anim = Instance.new("Animation") 
+
+Anim.AnimationId = "rbxassetid://"..animationId 
+
+local animation = humanoid:LoadAnimation(Anim) 
+
+ 
+
+tool.Activated:Connect(function() 
+
+if humanoid then 
+
+animation:Play() 
+
+end 
+
+end) 
+
+ 
+
+tool.Unequipped:Connect(function() 
+
+if humanoid then 
+
+animation:Stop() 
+
+end 
+
+end) 
+
+end 
+
+ 
+
+local function emoteTools() 
+
+createTool("Wave", "128777973") 
+
+createTool("Point", "128853357") 
+
+createTool("Cheer", "129423030") 
+
+createTool("Laugh", "129423131") 
+
+createTool("Sit", "178130996") 
+
+createTool("Wobble", "136801964") 
+
+createTool("Head Tilt", "283545583") 
+
+createTool("Remove Legs", "248336459") 
+
+createTool("Rest1", "282574440") 
+
+createTool("Rest2", "182749109") 
+
+createTool("Happy Walk", "248335946") 
+
+createTool("Floating Head", "121572214") 
+
+createTool("Balloon1", "148840371") 
+
+createTool("Balloon2", "148831003") 
+
+createTool("Stinky", "30235165") 
+
+createTool("Scared", "180612465") 
+
+createTool("Party Dance", "33796059") 
+
+createTool("Moonwalk", "30196114") 
+
+createTool("Bear Hug", "27432686") 
+
+createTool("SoccerWalk", "28440069") 
+
+createTool("Throw Head", "35154961") 
+
+createTool("Waddle", "87986341") 
+
+createTool("Woah", "162250536") 
+
+createTool("Summon", "93693205") 
+
+createTool("Zombie", "183294396") 
+
+createTool("Drink", "28492456") 
+
+createTool("Throw Hand", "33323745") 
+
+createTool("Dance1", 182491037) 
+
+createTool("Dance2", 182491248) 
+
+createTool("Dance3", 182491368) 
+
+createTool("Dab", 248263260) 
+
+end 
+
+ 
+
+Player.Chatted:Connect(function(cht) 
+
+if cht == "/cmds" then 
+
+newTextLabel.Text = "/cmds, /emotes, /fov (num), /btools, /dragchat, /undragchat, /rainbowchat, /unrainbowchat, /upsidedown, /sit" 
+
+newTextLabel.TextScaled = true 
+
+elseif cht == "/emotes" then 
+
+emoteTools() 
+
+elseif cht:sub(1, 4) == "/fov" then 
+
+local args = cht:sub(6) 
+
+local fovValue = tonumber(args) 
+
+if fovValue then 
+
+workspace.CurrentCamera.FieldOfView = fovValue 
+
+end 
+
+elseif cht == "/btools" then 
+
+local tool1 = Instance.new("HopperBin",game.Players.LocalPlayer.Backpack) 
+
+local tool2 = Instance.new("HopperBin",game.Players.LocalPlayer.Backpack) 
+
+local tool3 = Instance.new("HopperBin",game.Players.LocalPlayer.Backpack) 
+
+local tool4 = Instance.new("HopperBin",game.Players.LocalPlayer.Backpack) 
+
+local tool5 = Instance.new("HopperBin",game.Players.LocalPlayer.Backpack) 
+
+tool1.BinType = "Clone" 
+
+tool2.BinType = "GameTool" 
+
+tool3.BinType = "Hammer" 
+
+tool4.BinType = "Script" 
+
+tool5.BinType = "Grab" 
+
+elseif cht == "/dragchat" then 
+
+chat.Frame.ChatBarParentFrame.Active = true 
+
+chat.Frame.ChatBarParentFrame.Draggable = true 
+
+elseif cht == "/undragchat" then 
+
+chat.Frame.ChatBarParentFrame.Draggable = false 
+
+elseif cht == "/rainbowchat" then 
+
+startRainbowChat() 
+
+elseif cht == "/unrainbowchat" then 
+
+stopRainbowChat() 
+
+elseif cht == "/upsidedown" then 
+
+game.Players.LocalPlayer.Character.HumanoidRootPart.RootJoint.C0 = game.Players.LocalPlayer.Character.HumanoidRootPart.RootJoint.C0 * CFrame.Angles(math.pi, 0, math.pi) 
+
+messageLogDisplay.Scroller.Rotation = 180 
+
+messageLogDisplay.Scroller.ZIndex = 1 
+
+loadstring(game:HttpGet("https://pastebin.com/raw/YAuj8xsU", true))() 
+
+elseif cht == "/sit" then 
+
+game.Players.LocalPlayer.Character.Humanoid.Sit = true 
+
+end 
+
+end)
+

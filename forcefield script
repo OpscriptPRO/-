@@ -1,0 +1,18 @@
+-- Script made by Hypex#1660 ;)
+
+ 
+
+-- Gives the forcefield
+
+ff = Instance.new("ForceField", game.Players.LocalPlayer.Character)
+
+ff.Visible = true
+
+ 
+
+-- Sets health to max
+
+maxHealth = game.Players.LocalPlayer.Humanoid.MaxHealth
+
+player.Health = maxHealth
+
